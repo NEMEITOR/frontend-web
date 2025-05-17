@@ -60,7 +60,7 @@ export class ModalEditUsersComponent {
   getAllAdministrator() {
     this._userService.getAllAdministrator().subscribe({
       next: (res) => {
-        this.administratorValues = res.users;
+        this.administratorsValues = res.users;
       },
       error: (err) => {
         console.error(err);

@@ -19,7 +19,7 @@ export const APP_ROUTE: Route[] = [
   {
     path: 'page',
     loadChildren: () =>
-      import('./pages/pages.route').then((m) => m.PAGES_ROUTE),
+      import('./pages/pages.routes').then((m) => m.PAGES_ROUTE),
   },
 
 

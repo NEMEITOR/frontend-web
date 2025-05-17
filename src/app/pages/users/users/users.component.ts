@@ -16,9 +16,9 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule} from "@angular/material/table";
 import { MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { UsersService } from "app/services/users/users.service";
-import { ModalCreateUserComponent} from "app/pages/modal-create-user/modal-create-user.component";
+import { ModalCreateUsersComponent} from "app/pages/modal-create-user/modal-create-user.component";
 import { MatDialog} from "@angular/material/dialog";
-import { ModalEditUserComponent} from "app/pages/"
+import { ModalEditUsersComponent} from "app/pages/modal-edit-users/modal-edit-users.component";
 import { debounceTime, distinctUntilChanged } from "rxjs";
 
 
@@ -147,7 +147,7 @@ export class UsersComponent {
     });
   }
    openModalCreateUser(): void {
-    const dialogRef = this.dialogModel.open(ModalCreateUserComponent, {
+    const dialogRef = this.dialogModel.open(ModalCreateUsersComponent, {
       minWidth: '300px',
       maxWidth: '1000px',
       width: '840px',
@@ -155,7 +155,7 @@ export class UsersComponent {
     });
   }
   openModalUpdateUser(userInformation: any): void {
-    const dialogRef = this.dialogModel.open(ModalEditUserComponent, {
+    const dialogRef = this.dialogModel.open(ModalEditUsersComponent, {
       minWidth: '300px',
       maxWidth: '1000px',
       width: '840px',

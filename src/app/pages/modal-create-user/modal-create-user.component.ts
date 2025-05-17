@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import Swal from 'sweetalert2';
+import { UsersService } from 'app/services/users/users.service';
 
 @Component({
   selector: 'app-modal-create-user',
@@ -19,16 +20,17 @@ import Swal from 'sweetalert2';
   templateUrl: './modal-create-user.component.html',
   styleUrl: './modal-create-user.component.scss'
 })
-export class ModalCreateUserComponent  implements OnInit{
+export class ModalCreateUsersComponent  implements OnInit{
   formCreateUser!: FormGroup;
   administratorsValue: any[] = [];
   showfieldAdministrator: boolean = false;
+  validatePassword: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _formBuilder: FormBuilder,
-    private readonly _userService: UserService,
-    private readonly dialogRef: MatdialogRef<ModalCreateUserComponent>,
+    private readonly _userService: UsersService,
+    private readonly dialogRef: MatDialogRef<ModalCreateUsersComponent>,
     private readonly _snackBar: MatSnackBar,
   )
 
@@ -59,10 +61,10 @@ export class ModalCreateUserComponent  implements OnInit{
 
   getAllAdministrator() {
     this._userService.getAllAdministrator().subscribe({
-      next: (res) => {
+      next: (res: { users: any[]; }) => {
         this.administratorsValue = res.users;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error(err);
       }
     });
@@ -72,8 +74,11 @@ export class ModalCreateUserComponent  implements OnInit{
     if (event.value === '1') {
       this.hideAdministratorsField();
     } else {
-      this.showAdministratorField();
+      this.hideAdministratorsField();
     }
+  }
+  hideAdministratorsField() {
+    throw new Error('Method not implemented.');
   }
 
   onSubmit() {
@@ -91,20 +96,17 @@ export class ModalCreateUserComponent  implements OnInit{
     };
 
     this._userService.createUser(userDataInformation).subscribe({
-      next: (response) => {
+      next: (response: { message: string; }) => {
         this._snackBar.open(response.message, 'Cerrar', { duration: 5000});
         this.formCreateUser.reset();
         this.dialogRef.close(true);
       },
-      error:(error) => {
+      error:(error: { error: { result: string; }; }) => {
         const errorMessage = error.error?.result || 'Ocurrio un error innesperado';
         this._snackBar.open(errorMessage, 'Cerrar', { duration: 5000});
       }
     });
   }
 
-}
-function Inject(MAT_DIALOG_DATA: any): (target: typeof ModalCreateUserComponent, propertyKey: undefined, parameterIndex: 0) => void {
-  throw new Error('Function not implemented.');
 }
 
