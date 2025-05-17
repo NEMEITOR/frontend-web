@@ -15,9 +15,18 @@ export const APP_ROUTE: Route[] = [
       },
     ],
   },
+
+  {
+    path: 'page',
+    loadChildren: () =>
+      import('./pages/pages.route').then((m) => m.PAGES_ROUTE),
+  },
+
+
   {
     path: 'authentication',
     loadChildren: () =>
       import('./authentication/auth.routes').then((m) => m.AUTH_ROUTE),
   },
 ];
+
