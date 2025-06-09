@@ -1,0 +1,19 @@
+<h2>Editar Proyecto</h2>
+<form [formGroup]="formEditProject" (ngSubmit)="onSubmit()">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" required>
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <input matInput formControlName="descripcion" required>
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>ID Administrador</mat-label>
+    <input matInput formControlName="administrador_id" required type="number">
+  </mat-form-field>
+  <div class="actions mt-3">
+    <button mat-flat-button color="primary" type="submit" [disabled]="formEditProject.invalid">Guardar cambios</button>
+    <button mat-flat-button color="warn" type="button" (click)="dialogRef.close()">Cancelar</button>
+  </div>
+</form> 

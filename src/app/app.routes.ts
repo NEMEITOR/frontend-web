@@ -2,27 +2,26 @@ import { Route } from '@angular/router';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
 import { AuthGuard } from '@core/guard/auth.guard';
 
-export const APP_ROUTE: Route[] = [
+export const APP_ROUTE: Route[] = [ //APP_ROUTE arreglo de tipo route
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard], // solo permite el accesso si el guardia lo permite
     children: [
       {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('./dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTE),
+        path: 'dashboard', // el enrutamiento de nuestra pagina principal 
+        loadChildren: () => // Importar la ruta de donde se encuentra nuestra pagina 
+          import('./dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTE), // se importa dinamicamente
       },
+      {
+        path: 'page', // Enrumtamiento para  la parte de pages
+        loadChildren: () =>
+          import('./pages/pages.routes').then(
+            (m) => m.PAGES_ROUTE
+          ),
+      }
     ],
   },
-
-  {
-    path: 'page',
-    loadChildren: () =>
-      import('./pages/pages.routes').then((m) => m.PAGES_ROUTE),
-  },
-
-
   {
     path: 'authentication',
     loadChildren: () =>
@@ -30,3 +29,4 @@ export const APP_ROUTE: Route[] = [
   },
 ];
 
+// Aqui se encuentra la ruta globales 
