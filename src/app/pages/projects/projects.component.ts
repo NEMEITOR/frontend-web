@@ -13,6 +13,7 @@ import { ModalCreateProjectComponent } from '../modal-create-project/modal-creat
 import { ModalEditProjectComponent } from '../modal-create-project/modal-edit-project.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ModalAssignUsersProjectsComponent } from '../modal-assign-users-projects/modal-assign-users-projects.component';
 
 @Component({
   selector: 'app-projects', // Define el nombre con el que se usará el componente en los archivos HTML.
@@ -104,6 +105,24 @@ export class ProjectsComponent { // Definición de la clase principal del compon
       }
     });
   }
+
+  openModalAssignUsers(project: any): void {
+    const dialogRef = this.dialogModel.open(ModalAssignUsersProjectsComponent, {
+      minWidth: '300px',
+      maxWidth: '1000px',
+      width: '820px',
+      disableClose: true,
+      data: { project: project, user: [] } // Asegúrate de pasar los usuarios del proyecto
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.getAllProjects();
+      }
+    });
+  }
+
+
+  
 
   deleteProject(projectId: number): void {
     this.projectsService.deleteProject(projectId).subscribe({

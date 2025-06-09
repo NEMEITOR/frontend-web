@@ -1,1 +1,26 @@
-<p>modal-assign-users-projects works!</p>
+<h2 mat-dialog-title>Asignar usuarios a un proyecto</h2>
+
+<form [formGroup]="assignForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Proyecto</mat-label>
+    <mat-select formControlName="projectId">
+      <mat-option *ngFor="let project of projects" [value]="project.id">
+        {{ project.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Usuarios</mat-label>
+    <mat-select formControlName="userIds" multiple>
+      <mat-option *ngFor="let user of users" [value]="user.id">
+        {{ user.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="modal-footer">
+    <button mat-flat-button color="primary" type="submit" [disabled]="assignForm.invalid">Asignar</button>
+    <button mat-flat-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+  </div>
+</form>
