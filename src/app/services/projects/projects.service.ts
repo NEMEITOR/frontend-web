@@ -20,9 +20,11 @@ export class ProjectsService { // Definición del servicio ProjectsService.
   }
 
   updateProject(projectId: number, projectData: any): Observable<any> {
-    const endpoint = `${this.urlBaseServices}/api/v1/projects/update/${projectId}`;
-    return this.http.put<any>(endpoint, projectData);
+  const endpoint = `${this.urlBaseServices}/api/v1/projects/update`;
+  const payload = { id: projectId, ...projectData };
+  return this.http.put<any>(endpoint, payload);
   }
+
 
   deleteProject(projectId: number): Observable<any> {
     const endpoint = `${this.urlBaseServices}/api/v1/projects/delete/${projectId}`;

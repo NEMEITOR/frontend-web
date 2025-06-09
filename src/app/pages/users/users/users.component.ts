@@ -65,7 +65,7 @@ export class UsersComponent {
     {
       title: 'Gestión de usuarios',
       item: [],
-      active: 'Datos básicos',
+      active: 'Usuarios',
     },
   ];
 

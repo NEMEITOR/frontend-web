@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectsService } from 'app/services/projects/projects.service';
 
+
 @Component({
   selector: 'app-modal-edit-project',
   standalone: true,

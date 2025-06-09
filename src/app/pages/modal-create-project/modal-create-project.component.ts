@@ -8,7 +8,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Manejo de diálogos en Angular Material.
 import { MatSnackBar } from '@angular/material/snack-bar'; // Notificaciones emergentes en Angular Material.
 import { ProjectsService } from 'app/services/projects/projects.service'; // Servicio para gestionar proyectos.
-
+import { UsersService } from 'app/services/users/users.service';
+import { MatOptionModule } from '@angular/material/core';
 @Component({
   selector: 'app-modal-create-project', // Nombre del componente en HTML.
   standalone: true, // Indica que el componente no depende de un módulo externo.
@@ -19,7 +20,9 @@ import { ProjectsService } from 'app/services/projects/projects.service'; // Ser
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatOptionModule
+    
   ],
   templateUrl: './modal-create-project.component.html', // Archivo que define la estructura visual del componente.
   styleUrl: './modal-create-project.component.scss' // Archivo que contiene los estilos específicos del componente.
@@ -27,6 +30,7 @@ import { ProjectsService } from 'app/services/projects/projects.service'; // Ser
 export class ModalCreateProjectComponent { // Definición del componente.
 
   formCreateProject!: FormGroup; // Formulario reactivo para la creación de proyectos.
+  administratorsValue: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, // Recibe datos del diálogo cuando es abierto.
@@ -34,8 +38,10 @@ export class ModalCreateProjectComponent { // Definición del componente.
     private readonly projectsService: ProjectsService, // Servicio para gestionar proyectos.
     public dialogRef: MatDialogRef<ModalCreateProjectComponent>, // <-- Cambiado a public
     private readonly _snackBar: MatSnackBar, // Servicio para mostrar notificaciones emergentes.
+    private readonly _usersService: UsersService // Servicio para gestionar usuarios.
   ) {
     this.createForm(); // Inicializa el formulario.
+    this.loadAdmins(); // Carga los administradores al iniciar el componente.
   }
 
   createForm() {
@@ -45,6 +51,18 @@ export class ModalCreateProjectComponent { // Definición del componente.
       administrador_id: ['', Validators.required]
     });
   }
+
+  loadAdmins() {
+  this._usersService.getAllAdministrator().subscribe({
+    next: (res) => {
+      this.administratorsValue = res.users;
+    },
+    error: (err) => {
+      console.error('Error al obtener administradores', err);
+    }
+  });
+}
+
 
   // Envía el formulario para crear un nuevo proyecto.
   onSubmit() {
